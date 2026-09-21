@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Jasir-ali90/Expense-Budget-and-Reimbursement-Management-System#readme",
+  "bugs": {
+    "url": "https://github.com/Jasir-ali90/Expense-Budget-and-Reimbursement-Management-System/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jasir-ali90/Expense-Budget-and-Reimbursement-Management-System.git"
+  },
+  "license": "ISC",
+  "author": "Jasir Ali",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.6.0",
+    "mongoose": "^9.10.1",
+    "nodemon": "^3.1.14"
+  }
+}
