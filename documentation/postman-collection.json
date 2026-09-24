@@ -1,0 +1,1788 @@
+{
+  "info": {
+    "name": "Expense, Budget & Reimbursement Management System",
+    "description": "Local REST API collection. Run \"Login (stores token)\" first - the JWT is saved to the {{token}} variable and sent automatically.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health and docs",
+      "item": [
+        {
+          "name": "Service health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          }
+        },
+        {
+          "name": "API docs pointer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/docs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "docs"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (stores token)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Signs in and stores the JWT in the {{token}} collection variable.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@company.local\",\n  \"password\": \"Admin@123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.token) pm.collectionVariables.set('token', payload.data.token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Current user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Change password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "change-password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"Admin@123\",\n  \"newPassword\": \"Admin@1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users?page=1&limit=10&search=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users?page=1&limit=10&search="
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create user",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Employee\",\n  \"email\": \"new.employee@company.local\",\n  \"password\": \"Welcome@123\",\n  \"role\": \"Employee\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Update user",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Activate or deactivate user",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ":id",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isActive\": false,\n  \"reason\": \"Left the company\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Reset password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ":id",
+                "reset-password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newPassword\": \"Welcome@123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Upload my profile picture",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/avatar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "avatar"
+              ]
+            },
+            "description": "Multipart field \"avatar\". JPG, PNG or WEBP up to 2 MB.",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "avatar",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remove my profile picture",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/avatar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "avatar"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Departments and categories",
+      "item": [
+        {
+          "name": "List departments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/departments?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "departments?page=1&limit=10"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create department",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/departments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "departments"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Marketing\",\n  \"code\": \"MKT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Update department",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/departments/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "departments",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Archive department",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/departments/:id/archive",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "departments",
+                ":id",
+                "archive"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Restructuring\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Restore department",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/departments/:id/restore",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "departments",
+                ":id",
+                "restore"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories?page=1&limit=10"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Travel\",\n  \"maxClaimAmount\": 1500,\n  \"receiptRequired\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Update category",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Archive category",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/:id/archive",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories",
+                ":id",
+                "archive"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"No longer needed\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Restore category",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/:id/restore",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories",
+                ":id",
+                "restore"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Budgets",
+      "item": [
+        {
+          "name": "List budgets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/budgets?page=1&limit=10&periodType=Monthly",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "budgets?page=1&limit=10&periodType=Monthly"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get budget",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/budgets/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "budgets",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create budget",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/budgets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "budgets"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Revise budget",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/budgets/:id/revise",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "budgets",
+                ":id",
+                "revise"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"allocatedAmount\": 5000,\n  \"reason\": \"Q3 top up\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete budget",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/budgets/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "budgets",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Expenses",
+      "item": [
+        {
+          "name": "List expenses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses?page=1&limit=10&status=Approved",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses?page=1&limit=10&status=Approved"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get expense",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create expense",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "receipt",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update expense",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                ":id"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "receipt",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Submit expense",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses/:id/submit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                ":id",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Approve expense",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses/:id/approve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                ":id",
+                "approve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"Approved\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Reject expense",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses/:id/reject",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                ":id",
+                "reject"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Missing receipt\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Pay expense",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses/:id/pay",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                ":id",
+                "pay"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 250,\n  \"paymentMethod\": \"Bank Transfer\",\n  \"reference\": \"TXN-1001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Add expense adjustment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses/:id/adjustments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                ":id",
+                "adjustments"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 25,\n  \"reason\": \"VAT correction\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete expense",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Export expenses (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses?format=csv",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses?format=csv"
+              ]
+            },
+            "description": "Spreadsheet export of every matching expense."
+          }
+        },
+        {
+          "name": "Export expenses (PDF)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses?format=pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses?format=pdf"
+              ]
+            },
+            "description": "Branded, printable PDF of every matching expense."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Claims",
+      "item": [
+        {
+          "name": "List claims",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims?page=1&limit=10"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get claim",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create claim",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update claim",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Submit claim",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id/submit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Approve claim",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id/approve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id",
+                "approve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"Looks good\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Reject claim",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id/reject",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id",
+                "reject"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Out of policy\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Return claim",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id/return",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id",
+                "return"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Receipt unreadable\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Request receipt",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id/request-receipt",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id",
+                "request-receipt"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Receipt missing\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Reassign claim (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id/reassign",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id",
+                "reassign"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"financeManagerId\": \"000000000000000000000000\",\n  \"reason\": \"On leave\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Record payment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id",
+                "payments"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100,\n  \"paymentMethod\": \"Bank Transfer\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Add claim adjustment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id/adjustments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id",
+                "adjustments"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 10,\n  \"reason\": \"Rounding\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Upload item receipt",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id/items/:itemId/receipt",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id",
+                "items",
+                ":itemId",
+                "receipt"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "receipt",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Finance managers (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/finance-managers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                "finance-managers"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete claim",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/claims/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "List notifications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications?page=1&limit=10"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Unread count",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/unread-count",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "unread-count"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark notification read",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/:id/read",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                ":id",
+                "read"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark all read",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/read-all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "read-all"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Dismiss notification",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Audit log",
+      "item": [
+        {
+          "name": "List audit entries",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/audit-logs?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "audit-logs?page=1&limit=10"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Entity history",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/audit-logs/entity/Claim/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "audit-logs",
+                "entity",
+                "Claim",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Export audit log (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/audit-logs/export?format=csv",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "audit-logs",
+                "export?format=csv"
+              ]
+            },
+            "description": "Filtered audit trail as CSV."
+          }
+        },
+        {
+          "name": "Export audit log (PDF)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/audit-logs/export?format=pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "audit-logs",
+                "export?format=pdf"
+              ]
+            },
+            "description": "Filtered audit trail as a branded PDF."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard, reports and settings",
+      "item": [
+        {
+          "name": "Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/dashboard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "dashboard"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Report: expenses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/expenses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "expenses"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Report: claims",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/claims",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "claims"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Report: approval summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/approval-summary",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "approval-summary"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Report: budget usage",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/budget-usage?periodType=Monthly&period=2026-09",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "budget-usage?periodType=Monthly&period=2026-09"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Report: monthly trend",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/monthly-trend",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "monthly-trend"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Report: top categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/top-categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "top-categories"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Report: top vendors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/top-vendors",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "top-vendors"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Report: employee reimbursements",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/employee-reimbursements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "employee-reimbursements"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Export report as CSV",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/expenses?format=csv",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "expenses?format=csv"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/settings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "settings"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update settings",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/settings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "settings"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Report: expenses (PDF)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/expenses?format=pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "expenses?format=pdf"
+              ]
+            },
+            "description": "Branded, printable PDF of this report."
+          }
+        },
+        {
+          "name": "Report: claims (PDF)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/claims?format=pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "claims?format=pdf"
+              ]
+            },
+            "description": "Branded, printable PDF of this report."
+          }
+        },
+        {
+          "name": "Report: approval-summary (PDF)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/approval-summary?format=pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "approval-summary?format=pdf"
+              ]
+            },
+            "description": "Branded, printable PDF of this report."
+          }
+        },
+        {
+          "name": "Report: budget-usage (PDF)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/budget-usage?format=pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "budget-usage?format=pdf"
+              ]
+            },
+            "description": "Branded, printable PDF of this report."
+          }
+        },
+        {
+          "name": "Report: monthly-trend (PDF)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/monthly-trend?format=pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "monthly-trend?format=pdf"
+              ]
+            },
+            "description": "Branded, printable PDF of this report."
+          }
+        },
+        {
+          "name": "Report: top-categories (PDF)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/top-categories?format=pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "top-categories?format=pdf"
+              ]
+            },
+            "description": "Branded, printable PDF of this report."
+          }
+        },
+        {
+          "name": "Report: top-vendors (PDF)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/top-vendors?format=pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "top-vendors?format=pdf"
+              ]
+            },
+            "description": "Branded, printable PDF of this report."
+          }
+        },
+        {
+          "name": "Report: employee-reimbursements (PDF)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/employee-reimbursements?format=pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "employee-reimbursements?format=pdf"
+              ]
+            },
+            "description": "Branded, printable PDF of this report."
+          }
+        }
+      ]
+    }
+  ]
+}

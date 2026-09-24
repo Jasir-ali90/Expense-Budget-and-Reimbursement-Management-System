@@ -1,0 +1,2 @@
+# Keeps the runtime uploads folder in the repository.
+# Uploaded receipts/invoices are ignored by .gitignore.

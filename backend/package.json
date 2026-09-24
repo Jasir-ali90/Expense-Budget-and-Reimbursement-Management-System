@@ -1,26 +1,42 @@
 {
-  "name": "backend",
+  "name": "expense-management-backend",
   "version": "1.0.0",
-  "description": "",
-  "homepage": "https://github.com/Jasir-ali90/Expense-Budget-and-Reimbursement-Management-System#readme",
-  "bugs": {
-    "url": "https://github.com/Jasir-ali90/Expense-Budget-and-Reimbursement-Management-System/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Jasir-ali90/Expense-Budget-and-Reimbursement-Management-System.git"
-  },
-  "license": "ISC",
+  "description": "Local REST API for the Expense, Budget and Reimbursement Management System (MERN)",
   "author": "Jasir Ali",
+  "license": "ISC",
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "seed": "node seed.js",
+    "test": "jest --runInBand --forceExit",
+    "test:watch": "jest --watch --runInBand"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testTimeout": 30000,
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.1",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.6.0",
     "mongoose": "^9.10.1",
-    "nodemon": "^3.1.14"
+    "morgan": "^1.12.1",
+    "multer": "^2.4.0"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
   }
 }
